@@ -1,18 +1,37 @@
-import { GETUSERSSUCCESS, GETUSERSFAILED } from './usersConstant'
+import {
+  FETCHUSERSTART,
+  FETCHUSERSUCCESS,
+  FETCHUSERFAIL
+} from './usersConstant'
 
 const initialUsersState = {
   users: [],
-  error: true
+  isFetching: false,
+  errorMessage: null
+
 }
-const getUsersReducer = (state = initialUsersState, action = {}) => {
+const userReducer = (state = initialUsersState, action = {}) => {
   switch (action.type) {
-    case GETUSERSSUCCESS:
-      return { ...state, users: action.payload, error: false }
-    case GETUSERSFAILED:
-      return { ...state, isLoading: false, error: true }
+    case FETCHUSERSTART:
+      return {
+        ...state,
+        isFetching: true
+      }
+    case FETCHUSERSUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        users: action.payload
+      }
+    case FETCHUSERFAIL:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.payload
+      }
     default:
       return state
   }
 }
 
-export default getUsersReducer
+export default userReducer
